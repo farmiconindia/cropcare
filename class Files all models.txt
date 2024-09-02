@@ -1,0 +1,21 @@
+"Alstonia Scholaris diseased","Alstonia Scholaris healthy","Arjun diseased","Arjun healthy","Citrus_Black spot","Citrus_canker","Citrus_greening","Citrus_healthy","Guava diseased","Guava healthy","Jamun diseased","Jamun healthy","Pomegranate diseased","Pomegranate healthy","Pongamia Pinnata diseased","Pongamia Pinnata healthy","Bael diseased", "Basil healthy", "Jatropa diseased", "Jatropa healthy", "Lemon diseased", "Lemon healthy", "Mango diseased", "Mango healthy","Rose_Healthy_Leaf", "Rose_Rust", "Rose_sawfly_Rose_slug", "Soybean_healthy", 
+           "Sugarcane_Banded_Chlorosis", "Sugarcane_BrownRust", "Sugarcane_Brown_Spot", 
+           "Sugarcane_Grassy shoot", "Sugarcane_Pokkah Boeng", "Sugarcane_Sett Rot", 
+           "Sugarcane_Viral Disease", "Sugarcane_Yellow Leaf", "Tea_algal_spot", 
+           "Tea_brown_blight", "Tea_gray_blight", "Tea_healthy", "Tea_helopeltis", 
+           "Tea_red_spot","Blueberry_healthy","Cherry_healthy","Cherry_Powdery_mildew","Chinar diseased","Chinar healthy","Tulsi_bacterial","Tusli_fungal","Tulsi_healthy"
+
+For Model wise class
+Model 2:
+classes = "Alstonia Scholaris diseased","Alstonia Scholaris healthy","Arjun diseased","Arjun healthy","Citrus_Black spot","Citrus_canker","Citrus_greening","Citrus_healthy","Guava diseased","Guava healthy","Jamun diseased","Jamun healthy","Pomegranate diseased","Pomegranate healthy","Pongamia Pinnata diseased","Pongamia Pinnata healthy"
+Model 3:
+classes = "Bael diseased", "Basil healthy", "Jatropa diseased", "Jatropa healthy", "Lemon diseased", "Lemon healthy", "Mango diseased", "Mango healthy"
+model 4:
+classes = "Rose_Healthy_Leaf", "Rose_Rust", "Rose_sawfly_Rose_slug", "Soybean_healthy", 
+           "Sugarcane_Banded_Chlorosis", "Sugarcane_BrownRust", "Sugarcane_Brown_Spot", 
+           "Sugarcane_Grassy shoot", "Sugarcane_Pokkah Boeng", "Sugarcane_Sett Rot", 
+           "Sugarcane_Viral Disease", "Sugarcane_Yellow Leaf", "Tea_algal_spot", 
+           "Tea_brown_blight", "Tea_gray_blight", "Tea_healthy", "Tea_helopeltis", 
+           "Tea_red_spot"
+model 5:
+classes = "Blueberry_healthy","Cherry_healthy","Cherry_Powdery_mildew","Chinar diseased","Chinar healthy","Tulsi_bacterial","Tusli_fungal","Tulsi_healthy"

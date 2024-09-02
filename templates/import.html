@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FARMICON INDIA: Crop Doctor</title>
+    
+    <!-- Include jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <!-- Include any other CSS or JS files you need here -->
+    <link rel="stylesheet" href="your-style.css">  <!-- Example: your CSS file -->
+</head>
+<body>
+    {% block content %}
+    <!-- Content from other templates will be injected here -->
+    {% endblock %}
+</body>
+</html>
+
+<script>
+    $(document).ready(function() {
+        // Show image preview
+        $('#imageUpload').change(function() {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+                $('#imagePreview').attr('src', e.target.result);
+                $('.image-section').show();
+            }
+            reader.readAsDataURL(this.files[0]);
+        });
+
+        // Handle form submission
+        $('#btn-predict').click(function() {
+            let form_data = new FormData($('#upload-file')[0]);
+
+            // Show loading animation
+            $(this).hide();
+            $('.loader').show();
+
+            // Make prediction by calling the Flask API
+            $.ajax({
+                type: 'POST',
+                url: '/',
+                data: form_data,
+                contentType: false,
+                cache: false,
+                processData: false,
+                async: true,
+                success: function(data) {
+                    // Show the result
+                    $('.loader').hide();
+                    $('#btn-predict').show();
+                    $('#result').fadeIn(600);
+                    $('#result span').html(data);
+                    console.log('Success!');
+                },
+                error: function(err) {
+                    $('.loader').hide();
+                    $('#btn-predict').show();
+                    $('#result').fadeIn(600);
+                    $('#result span').html("An error occurred during prediction.");
+                    console.log('Error: ' + err);
+                }
+            });
+        });
+    });
+</script>
