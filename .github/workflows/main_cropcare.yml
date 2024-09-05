@@ -12,30 +12,31 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    container:
+      image: python:3.10-slim  # Consider using a stable Python version
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'  # Use Python 3.10 to ensure stability
+    - name: Install System Dependencies
+      run: |
+        apt-get update
+        apt-get install -y gcc libblas-dev liblapack-dev gfortran
 
     - name: Install Python Dependencies
       run: |
         pip install --upgrade pip
-        # Install numpy using only binary wheel to avoid compilation
-        pip install numpy --only-binary=:numpy:
-        # Install other requirements possibly avoiding compilation
-        pip install --only-binary=:all: -r requirements.txt
+        pip install --only-binary=:all: -r requirements.txt  # Force binary installation
 
     - name: Run Tests
-      run: pytest  # Ensure your tests are compatible with the environment
+      run: pytest  # Adjust as necessary for your project
 
     - name: Deploy to Azure Web App
       if: github.ref == 'refs/heads/main'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'YourWebAppName'  # Replace with your actual Azure Web App name
+        app-name: 'YourWebAppName'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: '.'
+
