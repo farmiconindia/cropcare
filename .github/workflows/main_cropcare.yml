@@ -12,33 +12,28 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
-    container:
-      image: python:3.10-slim  # Use Python 3.10 for better compatibility
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Install System Dependencies
-      run: |
-        apt-get update
-        apt-get install -y gcc libblas-dev liblapack-dev gfortran  # Necessary for compiling packages if needed
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.10'  # Downgrading to a more stable version for library compatibility
 
     - name: Install Python Dependencies
       run: |
         pip install --upgrade pip
-        # Ensure using only pre-built binaries where possible
-        pip install numpy --only-binary=numpy
-        pip install -r requirements.txt  # Install remaining dependencies
+        pip install numpy --only-binary=:all:  # This forces pip to use only pre-built binaries
+        pip install -r requirements.txt
 
     - name: Run Tests
-      run: pytest  # Assumes pytest is set up for your tests
+      run: pytest  # Ensure your tests are compatible with the environment
 
     - name: Deploy to Azure Web App
       if: github.ref == 'refs/heads/main'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'Cropcare'  # Replace with your actual Azure Web App name
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Set this in your repo secrets
+        app-name: 'YourWebAppName'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         package: '.'
-
