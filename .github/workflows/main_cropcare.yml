@@ -19,7 +19,7 @@ jobs:
     - name: Set up Python
       uses: actions/setup-python@v2
       with:
-        python-version: '3.10'  # Using a stable version for better compatibility
+        python-version: '3.10'  # Using Python 3.10 for better library support
 
     - name: Cache pip dependencies
       uses: actions/cache@v2
@@ -32,16 +32,16 @@ jobs:
     - name: Install dependencies with prebuilt binaries
       run: |
         pip install --upgrade pip
-        pip install numpy --only-binary=:all:  # Ensures using only pre-built binaries
+        pip install --only-binary=:all: numpy  # Ensures using only pre-built binaries
         pip install -r requirements.txt
 
     - name: Run tests
-      run: pytest
+      run: pytest  # Assuming pytest is used for testing; adjust according to your test runner
 
     - name: Deploy to Azure Web App
       if: github.ref == 'refs/heads/main'  # Ensures deployment only on main branch
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'YourWebAppName'  # Replace with your Azure Web App name
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        app-name: 'YourWebAppName'  # Replace with your actual Azure Web App name
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Ensure this secret is set in your repository settings
         package: '.'
