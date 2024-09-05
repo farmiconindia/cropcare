@@ -27,16 +27,18 @@ jobs:
     - name: Install Python Dependencies
       run: |
         pip install --upgrade pip
-        pip install --only-binary=:all: numpy
-        pip install -r requirements.txt
+        # Ensure using only pre-built binaries where possible
+        pip install numpy --only-binary=numpy
+        pip install -r requirements.txt  # Install remaining dependencies
 
     - name: Run Tests
-      run: pytest
+      run: pytest  # Assumes pytest is set up for your tests
 
     - name: Deploy to Azure Web App
       if: github.ref == 'refs/heads/main'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'YourWebAppName'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        app-name: 'Cropcare'  # Replace with your actual Azure Web App name
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Set this in your repo secrets
         package: '.'
+
