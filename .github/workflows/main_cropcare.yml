@@ -10,38 +10,33 @@ on:
 
 jobs:
   build-and-deploy:
-    runs-on: ubuntu-latest  # Specifies the latest Ubuntu runner
+    runs-on: ubuntu-latest
+
+    container:
+      image: python:3.10-slim  # Use Python 3.10 for better compatibility
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2  # Checks out your repository under $GITHUB_WORKSPACE
+      uses: actions/checkout@v2
 
-    - name: Set up Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: '3.10'  # Uses Python 3.10 for better compatibility
+    - name: Install System Dependencies
+      run: |
+        apt-get update
+        apt-get install -y gcc libblas-dev liblapack-dev gfortran  # Necessary for compiling packages if needed
 
-    - name: Cache pip dependencies
-      uses: actions/cache@v2
-      with:
-        path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-        restore-keys: |
-          ${{ runner.os }}-pip-
-
-    - name: Install dependencies with prebuilt binaries
+    - name: Install Python Dependencies
       run: |
         pip install --upgrade pip
         pip install --only-binary=:all: numpy
-        pip install -r requirements.txt  # Installs remaining dependencies from requirements.txt
+        pip install -r requirements.txt
 
-    - name: Run tests
-      run: pytest  # Runs tests using pytest
+    - name: Run Tests
+      run: pytest
 
     - name: Deploy to Azure Web App
-      if: github.ref == 'refs/heads/main'  # Deploys only if the push or merge occurs on the main branch
+      if: github.ref == 'refs/heads/main'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'YourWebAppName'  # Replace this with the name of your Azure Web App
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Ensure this secret is set in your GitHub repo
-        package: '.'  # Deploys the entire GitHub workspace directory
+        app-name: 'YourWebAppName'
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: '.'
