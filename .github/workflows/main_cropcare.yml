@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
 
     container:
-      image: python:3.10-slim  # Consider using a stable Python version
+      image: python:3.10-slim  # Stable Python version
 
     steps:
     - name: Checkout code
@@ -22,21 +22,20 @@ jobs:
     - name: Install System Dependencies
       run: |
         apt-get update
-        apt-get install -y gcc libblas-dev liblapack-dev gfortran
+        apt-get install -y gcc libblas-dev liblapack-dev gfortran  # Ensure these are necessary
 
     - name: Install Python Dependencies
       run: |
         pip install --upgrade pip
-        pip install --only-binary=:all: -r requirements.txt  # Force binary installation
+        pip install --only-binary=:all: -r requirements.txt  # Ensure all packages have binary wheels
 
     - name: Run Tests
-      run: pytest  # Adjust as necessary for your project
+      run: pytest  # Adjust the test runner as per your project
 
     - name: Deploy to Azure Web App
       if: github.ref == 'refs/heads/main'
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'YourWebAppName'
-        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        package: '.'
-
+        app-name: 'Cropcare'  # Replace with the real Azure Web App name
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}  # Ensure secret is configured correctly
+        package: '.'  # This assumes you're deploying the entire repository
